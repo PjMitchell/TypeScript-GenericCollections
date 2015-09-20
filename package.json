@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0",
+    "name": "ASP.NET",
+    "private": true,
+    "devDependencies": {
+        "gulp": "~3.9.0",
+        "del": "~2.0.1",
+        "gulp-typescript": "~2.8.2",
+        "gulp-jasmine": "~2.0.1",
+        "gulp-watch": "~4.3.5",
+        "gulp-flatten": "~0.2.0"
+    }
+}
