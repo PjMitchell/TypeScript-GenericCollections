@@ -13,8 +13,7 @@
         private buckets: T[][];
         private count: number;
         constructor() {
-            this.buckets = new Array<Array<T>>();
-            this.count = 0;
+            this.clear();
         }
 
         add(item: T) {
@@ -34,6 +33,27 @@
             return true;
         };
 
+        remove(item: T) {
+            var hashCode = item.getHashCode();
+            var bucket = this.buckets[hashCode];
+            if (bucket === undefined) {
+                return false;
+            }
+            var result = false;
+            var newBucket = new Array<T>();
+            bucket.forEach((value) => {
+                if (!value.equals(item))
+                    newBucket.push(item);
+                else
+                    result = true;
+            });
+            this.buckets[hashCode] = newBucket;
+            if (result)
+                this.count = this.count - 1;
+            return result;
+        }
+
+
         contains(item: T) {
             var hashCode = item.getHashCode();
             var bucket = this.buckets[hashCode];
@@ -45,6 +65,11 @@
 
         getCount() {
             return this.count;
+        }
+
+        clear() {
+            this.buckets = new Array<Array<T>>();
+            this.count = 0;
         }
     }
 }
