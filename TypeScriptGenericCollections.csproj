@@ -28,6 +28,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\typings\jasmine\jasmine.d.ts" />
     <TypeScriptCompile Include="Src\Collections.ts" />
+    <TypeScriptCompile Include="Tests\DictionaryTests.ts" />
     <TypeScriptCompile Include="Tests\HashSetTests.ts" />
     <TypeScriptCompile Include="Tests\Helpers\TestItem.ts" />
   </ItemGroup>
