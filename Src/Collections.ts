@@ -85,6 +85,16 @@
             this.buckets = new Array<Array<T>>();
             this.count = 0;
         }
+
+        toArray() {
+            var result = new Array<T>()
+            this.buckets.forEach(value => {
+                value.forEach(inner => {
+                    result.push(inner);
+                });
+            });
+            return result;
+        }
     }
 
     export class KeyValuePair<Tkey, TValue> {
