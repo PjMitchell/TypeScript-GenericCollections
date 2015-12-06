@@ -16,6 +16,16 @@
         getCount(): number
         clear(): void
         toArray(): Array<T>
+        //Removes all elements in the specified collection from the current set
+        exceptWith(other: Array<T>): void
+        //Modifies the current Set object to contain only elements that are present in that object and in the specified array
+        intersectWith(other: Array<T>): void
+        //Modifies the current set object to contain all elements that are present in itself, the specified collection, or both.
+        unionWith(other: Array<T>): void
+        isSubsetOf(other: Array<T>): boolean
+        isSupersetOf(other: Array<T>): boolean
+        overlaps(other: Array<T>): boolean
+        setEquals(other: Array<T>): boolean
     }
 
     export interface IDictionary<Tkey, TValue> {
@@ -26,6 +36,11 @@
         clear(): void
         toArray(): Array<KeyValuePair<Tkey, TValue>>
         get(key: Tkey): TValue
+    }
+
+    interface IBucketsWithCount<T> {
+        Buckets: Array<Array<T>>
+        Count: number
     }
 
     export class CollectionException implements Error{
@@ -50,8 +65,12 @@
     abstract class Set<T> implements ISet<T> {
         protected buckets: T[][];
         protected count: number;
-        constructor() {
+        constructor(source?: Array<T>) {
             this.clear();
+            if (source)
+                source.forEach(value => {
+                    this.add(value);
+                });
         }
         abstract getHashCode(item: T): number;
         abstract areEqual(value1: T, value2: T): boolean;
@@ -94,12 +113,7 @@
         }
 
         contains(item: T) {
-            var hashCode = this.getHashCode(item);
-            var bucket = this.buckets[hashCode];
-            if (bucket === undefined) {
-                return false;
-            }
-            return bucket.some((value) => this.areEqual(value, item));
+            return this.bucketsContains(this.buckets, item)
         };
 
         getCount() {
@@ -121,11 +135,89 @@
             return result;
         }
 
-    }
+        //Removes all elements in the specified collection from the current set
+        exceptWith(other: Array<T>) {
+            if (other) {
+                other.forEach(value => {
+                    this.remove(value);
+                })
+            }
+        }
+        //Modifies the current Set object to contain only elements that are present in that object and in the specified array
+        intersectWith(other: Array<T>) {            
+            if (other) {
+                var otherBuckets = this.buildInternalBuckets(other);
+                this.toArray().forEach(value => {
+                    if (!this.bucketsContains(otherBuckets.Buckets, value))
+                        this.remove(value);
+                });
+            }
+            else {
+                this.clear();
+            }
+        }
+
+        unionWith(other: Array<T>) {
+            other.forEach(value => {
+                this.add(value);
+            });
+        }
+
+        isSubsetOf(other: Array<T>) {
+
+            var otherBuckets = this.buildInternalBuckets(other);
+            return this.toArray().every(value => this.bucketsContains(otherBuckets.Buckets, value));
+
+        }
+        isSupersetOf(other: Array<T>) {
+            return other.every(value => this.contains(value));
+        }
+
+        overlaps(other: Array<T>) {
+            return other.some(value => this.contains(value));
+        }
+
+        setEquals(other: Array<T>) {
+            var otherBuckets = this.buildInternalBuckets(other);
+            if (otherBuckets.Count !== this.count)
+                return false
+            return other.every(value => this.contains(value));
+        }
+
+        private buildInternalBuckets(source: Array<T>): IBucketsWithCount<T> {
+            var internalBuckets = new Array<Array<T>>();
+            var internalCount = 0;
+            source.forEach(item=> {
+                var hashCode = this.getHashCode(item);
+                var bucket = internalBuckets[hashCode];
+                if (bucket === undefined) {
+                    var newBucket = new Array<T>();
+                    newBucket.push(item);
+                    internalBuckets[hashCode] = newBucket;
+                    internalCount = internalCount + 1;
+                }
+                else if (!bucket.some((value) => this.areEqual(value, item))) {
+                    bucket.push(item);
+                    internalCount = internalCount + 1;
+                }
+            });
+            return { Buckets: internalBuckets, Count: internalCount };
+        }
+
+        private bucketsContains(internalBuckets: Array<Array<T>>, item: T) {
+            var hashCode = this.getHashCode(item);
+            var bucket = internalBuckets[hashCode];
+            if (bucket === undefined) {
+                return false;
+            }
+            return bucket.some((value) => this.areEqual(value, item));
+        }
+    } 
+
 
     export class HashSet<T extends IEqualityComparable> extends Set<T>  {
-        constructor() {
-            super()
+        constructor(source?: Array<T>) {
+            super(source)
         }
         getHashCode(item: T) {
             return item.getHashCode();
@@ -136,8 +228,8 @@
     }
 
     export class ObjectSet<T> extends Set<T>{
-        constructor(private comparer: IEqualityComparer<T>) {
-            super();
+        constructor(private comparer: IEqualityComparer<T>, source?: Array<T>) {
+            super(source);
         }
         getHashCode(item: T) {
             return this.comparer.getHashCode(item);
@@ -232,6 +324,7 @@
             });
             return result;
         }
+
     };
 
     export class HashTable<Tkey extends IEqualityComparable, TValue> extends Table<Tkey, TValue>{

@@ -82,6 +82,200 @@ describe("HashSet", () => {
             expect(hashSet.getCount()).toEqual(0);
         });
     })
+
+    describe("Except with", () => {
+        it("Removes all elements in the specified collection from the current set", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.exceptWith(other);
+            expect(hashSet.contains(item3)).toEqual(false);
+            expect(hashSet.contains(item4)).toEqual(true);
+            expect(hashSet.contains(item5)).toEqual(true);
+
+        });
+        it("adjusts count", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.exceptWith(other);
+            expect(hashSet.getCount()).toEqual(2);
+        });
+    })
+
+    describe("Intersect With", () => {
+        it("Removes all elements in the specified collection from the current set", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.intersectWith(other);
+            expect(hashSet.contains(item3)).toEqual(true);
+            expect(hashSet.contains(item4)).toEqual(false);
+            expect(hashSet.contains(item5)).toEqual(false);
+
+        });
+        it("adjusts count", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.intersectWith(other);
+            expect(hashSet.getCount()).toEqual(1);
+        });
+    })
+
+    describe("Union With", () => {
+        it("Modifies the current set object to contain all elements that are present in itself, the specified collection, or both.", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item2, item3];
+            hashSet.unionWith(other);
+            expect(hashSet.contains(item2)).toEqual(true);
+            expect(hashSet.contains(item3)).toEqual(true);
+            expect(hashSet.contains(item4)).toEqual(true);
+            expect(hashSet.contains(item5)).toEqual(true);
+
+        });
+        it("adjusts count", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.intersectWith(other);
+            expect(hashSet.getCount()).toEqual(1);
+        });
+    })
+
+    describe("isSubset", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            expect(hashSet.isSubsetOf(other1)).toEqual(false);
+            expect(hashSet.isSubsetOf(other2)).toEqual(false);
+            expect(hashSet.isSubsetOf(other3)).toEqual(false);
+            expect(hashSet.isSubsetOf(other4)).toEqual(false);
+            expect(hashSet.isSubsetOf(other5)).toEqual(true);
+        });
+        
+    })
+
+    describe("isSuperSet of", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            expect(hashSet.isSupersetOf(other1)).toEqual(false);
+            expect(hashSet.isSupersetOf(other2)).toEqual(true);
+            expect(hashSet.isSupersetOf(other3)).toEqual(false);
+            expect(hashSet.isSupersetOf(other4)).toEqual(true);
+            expect(hashSet.isSupersetOf(other5)).toEqual(false);
+        });
+
+    })
+    describe("overlap", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            expect(hashSet.overlaps(other1)).toEqual(true);
+            expect(hashSet.overlaps(other2)).toEqual(true);
+            expect(hashSet.overlaps(other3)).toEqual(false);
+            expect(hashSet.overlaps(other4)).toEqual(true);
+            expect(hashSet.overlaps(other5)).toEqual(true);
+        });
+        
+    })
+
+    describe("Set equals", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            var other6 = [item3, item4, item5];
+            expect(hashSet.setEquals(other1)).toEqual(false);
+            expect(hashSet.setEquals(other2)).toEqual(false);
+            expect(hashSet.setEquals(other3)).toEqual(false);
+            expect(hashSet.setEquals(other4)).toEqual(false);
+            expect(hashSet.setEquals(other5)).toEqual(false);
+            expect(hashSet.setEquals(other6)).toEqual(true);
+
+        });
+    });
 })
 
 describe("ObjectSet", () => {
@@ -171,4 +365,198 @@ describe("ObjectSet", () => {
             expect(hashSet.getCount()).toEqual(0);
         });
     })
+
+    describe("Except with", () => {
+        it("Removes all elements in the specified collection from the current set", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.exceptWith(other);
+            expect(hashSet.contains(item3)).toEqual(false);
+            expect(hashSet.contains(item4)).toEqual(true);
+            expect(hashSet.contains(item5)).toEqual(true);
+
+        });
+        it("adjusts count", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.exceptWith(other);
+            expect(hashSet.getCount()).toEqual(2);
+        });
+    })
+
+    describe("Intersect With", () => {
+        it("Removes all elements in the specified collection from the current set", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.intersectWith(other);
+            expect(hashSet.contains(item3)).toEqual(true);
+            expect(hashSet.contains(item4)).toEqual(false);
+            expect(hashSet.contains(item5)).toEqual(false);
+
+        });
+        it("adjusts count", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.intersectWith(other);
+            expect(hashSet.getCount()).toEqual(1);
+        });
+    })
+
+    describe("Union With", () => {
+        it("Modifies the current set object to contain all elements that are present in itself, the specified collection, or both.", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item2, item3];
+            hashSet.unionWith(other);
+            expect(hashSet.contains(item2)).toEqual(true);
+            expect(hashSet.contains(item3)).toEqual(true);
+            expect(hashSet.contains(item4)).toEqual(true);
+            expect(hashSet.contains(item5)).toEqual(true);
+
+        });
+        it("adjusts count", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other = [item1, item2, item3];
+            hashSet.intersectWith(other);
+            expect(hashSet.getCount()).toEqual(1);
+        });
+    })
+
+    describe("isSubset", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            expect(hashSet.isSubsetOf(other1)).toEqual(false);
+            expect(hashSet.isSubsetOf(other2)).toEqual(false);
+            expect(hashSet.isSubsetOf(other3)).toEqual(false);
+            expect(hashSet.isSubsetOf(other4)).toEqual(false);
+            expect(hashSet.isSubsetOf(other5)).toEqual(true);
+        });
+
+    })
+
+    describe("isSuperSet of", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            expect(hashSet.isSupersetOf(other1)).toEqual(false);
+            expect(hashSet.isSupersetOf(other2)).toEqual(true);
+            expect(hashSet.isSupersetOf(other3)).toEqual(false);
+            expect(hashSet.isSupersetOf(other4)).toEqual(true);
+            expect(hashSet.isSupersetOf(other5)).toEqual(false);
+        });
+
+    })
+    describe("overlap", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            expect(hashSet.overlaps(other1)).toEqual(true);
+            expect(hashSet.overlaps(other2)).toEqual(true);
+            expect(hashSet.overlaps(other3)).toEqual(false);
+            expect(hashSet.overlaps(other4)).toEqual(true);
+            expect(hashSet.overlaps(other5)).toEqual(true);
+        });
+
+    })
+
+    describe("Set equals", () => {
+        it("Works", () => {
+            var item1 = new TestClasses.TestItem(1);
+            var item2 = new TestClasses.TestItem(2);
+            var item3 = new TestClasses.TestItem(3);
+            var item4 = new TestClasses.TestItem(4);
+            var item5 = new TestClasses.TestItem(5);
+            hashSet.add(item3);
+            hashSet.add(item4);
+            hashSet.add(item5);
+            var other1 = [item1, item2, item3];
+            var other2 = [item3];
+            var other3 = [item1, item2];
+            var other4 = [item3, item5];
+            var other5 = [item2, item3, item4, item5];
+            var other6 = [item3, item4, item5];
+            expect(hashSet.setEquals(other1)).toEqual(false);
+            expect(hashSet.setEquals(other2)).toEqual(false);
+            expect(hashSet.setEquals(other3)).toEqual(false);
+            expect(hashSet.setEquals(other4)).toEqual(false);
+            expect(hashSet.setEquals(other5)).toEqual(false);
+            expect(hashSet.setEquals(other6)).toEqual(true);
+
+        });
+    });
 })
