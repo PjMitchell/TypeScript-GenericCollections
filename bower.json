@@ -1,0 +1,19 @@
+{
+    "name": "TypeScript-GenericCollection",
+    "version": "0.0.1",
+    "authors": [ "Peter Mitchell" ],
+    "ignore": [
+        "Src",
+        "Tests",
+        ".bowerrc",
+        ".gitignore",
+        "bower.json",
+        "tsd.json",
+        "gulpfile.js",
+        "package.json",
+        "README.md"
+    ],
+	"private": true,
+	"dependencies": {
+	}
+}

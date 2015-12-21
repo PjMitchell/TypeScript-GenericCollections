@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -22,11 +22,13 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dist\Collections.js" />
+    <Content Include="dist\Collections.min.js" />
     <Content Include="gulpfile.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\jasmine\jasmine.d.ts" />
+    <TypeScriptCompile Include="dist\Collections.d.ts" />
     <TypeScriptCompile Include="Src\Collections.ts" />
     <TypeScriptCompile Include="Tests\HashSetTests.ts" />
     <TypeScriptCompile Include="Tests\Helpers\TestItem.ts" />
@@ -34,6 +36,10 @@
   <ItemGroup>
     <Content Include="package.json" />
     <Content Include="packages.config" />
+    <Content Include=".bowerrc" />
+    <Content Include="tsd.json" />
+    <Content Include="bower.json" />
+    <Content Include="Readme.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

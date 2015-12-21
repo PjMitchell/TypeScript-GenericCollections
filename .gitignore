@@ -8,6 +8,8 @@
 *.sln.docstates
 *.js
 !gulpfile.js
+!dist/Collection.js
+!dist/Collection.min.js
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

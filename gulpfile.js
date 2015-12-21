@@ -8,17 +8,32 @@ var gulp = require('gulp'),
     del = require("del"),
     jas = require("gulp-jasmine"),
     watch = require('gulp-watch'),
-    flatten = require('gulp-flatten');
+    flatten = require('gulp-flatten'),
+    uglify = require('gulp-uglify'),
+    rename = require('gulp-rename'),
+    tsd = require('gulp-tsd');
+
 var paths = {
-    lib: "./lib/",
+    output: "./dist/",
     typeScript: './src/**/*.ts',
     tests: './tests/*.ts'
 };
 gulp.task('typeScript', function () {
-    gulp.src([paths.typeScript])
-    .pipe(tsc().js)
-    .pipe(gulp.dest(paths.lib));
+    var out = gulp.src([paths.typeScript])
+    .pipe(tsc({ declaration : true}));
+    out.dts.pipe(gulp.dest(paths.output));
+    out.js.pipe(gulp.dest(paths.output))
+        .pipe(rename({ extname: ".min.js" }))
+        .pipe(uglify())
+        .pipe(gulp.dest(paths.output));
 });
+
+gulp.task('declaration', function (callback) {
+    tsd({
+        command: 'reinstall',
+        config: './tsd.json'
+    }, callback);
+})
 
 gulp.task('test', function () {
     gulp.src([paths.tests])
