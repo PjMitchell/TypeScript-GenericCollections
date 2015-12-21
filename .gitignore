@@ -6,10 +6,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.js
-!gulpfile.js
-!dist/Collections.js
-!dist/Collections.min.js
+Src/**/*.js
+Test/**/*.js
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
