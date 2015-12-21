@@ -1,5 +1,7 @@
 {
     "name": "TypeScript-GenericCollection",
+    "description": "An attempt to implement the dot net genric collection in type script.",
+    "keywords": ["Dictionary", "HashSet", "TypeScript"],
     "version": "0.0.1",
     "authors": [ "Peter Mitchell" ],
     "ignore": [
@@ -13,7 +15,6 @@
         "package.json",
         "README.md"
     ],
-	"private": true,
-	"dependencies": {
-	}
+    "dependencies": {
+    }
 }
