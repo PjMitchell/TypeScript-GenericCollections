@@ -20,7 +20,7 @@ var paths = {
 };
 gulp.task('typeScript', function () {
     var out = gulp.src([paths.typeScript])
-    .pipe(tsc({ declaration : true}));
+    .pipe(tsc({ declaration: true, removeComments : false}));
     out.dts.pipe(gulp.dest(paths.output));
     out.js.pipe(gulp.dest(paths.output))
         .pipe(rename({ extname: ".min.js" }))
