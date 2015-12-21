@@ -1,11 +1,28 @@
 ﻿module Collections {
+    /*Provides interface to determined object's hash code and wether two items are equal
+    */
     export interface IEqualityComparer<T> {
+        /*Determines if two objects are equal
+        *@param value1 first value to be compared
+        *@param value2 second value to be compared
+        */
         equals(value1: T, value2: T): boolean;
+        /*Generates hash code for object
+        *@param value value used to generate Hashcode
+        */
         getHashCode(value: T): number;
     }
 
+    /*
+    Object declares its own equality method and Hashcode generation
+    */
     export interface IEqualityComparable {
-        equals(value1: any): boolean;
+        /*Determines if another object is equal to this instance
+        *@param other object to be compared
+        */
+        equals(other: any): boolean;
+        /*Generates hash code for object
+        */
         getHashCode(): number;
     }
 
@@ -62,7 +79,7 @@
         constructor(public key: Tkey, public value: TValue) { }
     }
 
-    abstract class Set<T> implements ISet<T> {
+    export abstract class Set<T> implements ISet<T> {
         protected buckets: T[][];
         protected count: number;
         constructor(source?: Array<T>) {
@@ -240,7 +257,7 @@
         
     }
 
-    abstract class Table<Tkey, TValue> implements IDictionary<Tkey, TValue>{
+    export abstract class Table<Tkey, TValue> implements IDictionary<Tkey, TValue>{
         protected buckets: KeyValuePair<Tkey, TValue>[][];
         protected count: number;
         constructor() {

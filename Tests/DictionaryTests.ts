@@ -1,4 +1,4 @@
-﻿/// <reference path="../scripts/typings/jasmine/jasmine.d.ts" />
+﻿/// <reference path="../typings/jasmine/jasmine.d.ts" />
 /// <reference path="../src/collections.ts" />
 /// <reference path="helpers/testitem.ts" />
 

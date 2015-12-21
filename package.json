@@ -1,6 +1,6 @@
 {
-    "version": "1.0.0",
-    "name": "ASP.NET",
+    "version": "0.0.1",
+    "name": "TypeScript-GenericCollection",
     "private": true,
     "devDependencies": {
         "gulp": "~3.9.0",
@@ -8,6 +8,9 @@
         "gulp-typescript": "2.10.0",
         "gulp-jasmine": "~2.0.1",
         "gulp-watch": "~4.3.5",
-        "gulp-flatten": "~0.2.0"
+        "gulp-flatten": "~0.2.0",
+        "gulp-tsd": "0.0.4",
+        "gulp-uglify": "1.5.1",
+        "gulp-rename": "1.2.2"
     }
 }
